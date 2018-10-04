@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>xPea</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">xPea</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/input">SEARCH</a></li>
+            <li><a href="/behind_the_search">Behind the Search</a></li>
+            <li><a href="/about_me">About me</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+<br><br>
+<div class="container">
+
+   <div class="starter-template">
+       <h1>Behind the Search</h1><br>
+   </div>
+
+   <div class = "container">
+      <p>
+        Given a position at a company, xPea finds the positions at companies most similar to it.
+        It doesn't just find the best jobs or the best companies, but the best job title-company pairs. 
+        If xPea suggests a position at a company, then it's been reviewed at least once on Glassdoor at that company.
+        Thus, these positions really exist! (at least at some time).
+        For my recommendation system, I analyzed 2.5 million Glassdoor reviews on over 4,000 publicly traded companies and compared over 13,000 unique job titles.
+        The Glassdoor reviews data was provided by Thinknum, a company that provides alternative data culled from the web and allowed access to this data for projects at Insight Data Science. 
+      </p>
+    </div>
+
+    <div class = "starter-template">
+
+      <h3>Glassdoor, the world's largest second job search website</h3>
+
+    </div>
+
+    <div class = "container">
+
+      <p>
+        If you have never been on the website Glassdoor.com, then you have either been extremely fortunate in your life or have not been taking advantage of a great resource. 
+        Glassdoor, the second largest job search website in the country/world/universe, generates over 55 million monthly users, due in large part to its collection of over 42 million reviews on over 800,000 employees. 
+        With the assistance of generous reviewers, the website provides an in-depth look into what it's like to work at companies. 
+      </p>
+     
+   </div>
+
+   <div class = "starter-template">
+    <h3>Company similarity</h3>
+  </div>
+
+  <div class = "container">
+    <p>
+      My recommendation system is really a position-company similarity system, with the extra feature of allowing the user to state their preference towards suggesting similar companies versus suggesting similar titles. 
+      <br><br>
+      The first component of xPea finds similar companies to a given company.
+      To do this, I measured each of the 4,000+ companies in ten categories: Culture & Values, Work/Life Balance, Senior Management, Comp & Benefits, and Career Opportunities in both PROs (positive aspects) and CONs (negative aspects).
+      <br><br>
+      The easy part of this analysis was choosing the categories. These are the exact same categories that Glassdoor asks users to rate companies from 1 to 5 stars.
+      I found that the reviews tended to focus on these 5 categories.
+      This isn't too surprising since reviewers are asked to rate companies on a 1-5 scale on each of these categories, hence are primed to think about companies in these terms.
+      <br><br>
+      The hard part of my analysis was the form of the reviews. 
+      If you've ever written a review on Glassdoor, you might know that beyond giving star ratings, Glassdoor allows users to write about the PROs and CONs of their experience working at a company. 
+      These PROs and CONs reviews are written in free-form format.
+      An example PRO part of a review might look like "This company sells cell phone. The pay is good. Though, the managers are the best part!"
+      This form made it hard to dissect these large text blocks into categories in order to gauge employee sentiment in the 10 categories.
+      In order to handle this, I hand-labeled around 4,000 Glassdoor review sentences, half from PROs and half from CONs. I then applied a Word2Vec model. 
+      To improve the accuracy of my later predicted, I then did some feature engineering, creating 92 binary variables based on the content of sentences. 
+      For example, one variable might ask if "pay" (or any of its variants) are present in the sentence.  
+      To create these variables, I chose words from my 4,000 sentences that co-occurred frequently with certain categories (e.g., sentences with "pay" in it frequently have to do with with "Comp & Benefits".)
+      
+      <br><br>
+
+      I then trained 10 Logistic Regression models with Stratified K-Fold cross validation (one for each category) that each had accuracy of at least 70% and with most achieving at least 87% accuracy on my testset. 
+      I chose Logistic Regression because it works well with sparse matrices (my vector representation matrix of sentences was sparse due to the binary variables), is quick, and is interpretable. 
+      I choose Stratified K-Fold cross validation due to the class inbalance in my training data.
+      For most of categories, less than 20% of sentences were labeled to belong to that category. 
+
+      <br><br>
+
+      From this, I predicted the rest of the 5,000,000+ sentences from PROs and CONs in order to understand how employees felt in various aspects.
+      To support my prediction, I found that the proportions of my hand-labeling and predictions into the various categories tended to be pretty close.
+      <br><br>
+      After I predicted the labels of each sentence (which categories it belonged to), I grouped the sentences by company and the label.
+      I then found the average sentiment using VADER sentiment analysis for each company and category.
+      Vader is a handy, quick function in the NLTK package that measures the sentiment of each sentence on a scale of -1 to 1. 
+      It is trained on a variety of text sources by Amazon Mechanical Turk, whose people judged the sentiment of individual words on a scale of -1 to 1. 
+      The sentiment of a sentence is simply given by taking the sum of sentiments of its words.
+      Vader took less than an hour to judge the sentiment of my 5,000,000 sentences.
+      <br><br>
+      After doing this averaging, I was able to associate each company with a sequence of 10 numbers (or stated otherwise, a 10-vector) of how employees felt about it in the various categories.
+      I then could calculate the distance between two companies to be distance between their representative vectors.
+      There are infinitely many ways could define distance here, but I simply choose the Euclidean distance.
+
+    </p>
+
+  </div>
+
+  <div class="starter-template">
+    <h3>
+      Job similarity
+    </h3>
+  </div>
+
+
+  <div class = "container">
+    <p>
+      Computing job similarity was quite easier.
+      The O*Net Database is the nation's largest occupational database and contains information on the skills, abilities, and knowledges required by 967 occupations.
+      It was generated by surveying people in the occupations and occupational experts. 
+      This database assigns a number value to each skill/ability/knowledge area, rating it numerically in terms of how important it is and how good you need to be in it.
+      This provided me an easy way of vectorizing jobs (or representing them as sequences of numbers).
+      Then I could use the same tactic as I did for companies to find the distance between jobs.
+      <br><br>
+      One issue I had was not all of the jobs represented by reviews were listed in my database.
+      My reviews inclued reviews from over 13,000 job titles!
+      Plus, what if people slightly misspelled job titles?
+      <br><br>
+      To handle this, I took advantage of O*Net's search function. If I encountered a job that wasn't represented verbatim in the database, I would search the job in the O*Net database to find the most similar job titles to it.
+      I then represented the unknown job title as the average of the top 3 matches (O*Net's closest picks were from the original 967 jobs). 
+      In this way, I was able to extend from the 967 representations to more than 13,000 representations of job titles.
+
+    </p>
+
+  </div>
+
+  <div class="starter-template">
+    <h3> Computing company and job title similarity scores</h3>
+
+  </div>
+
+  <div class="container">
+    <p>
+      Now that I was able to find the distance between any two companies and any two positions, I needed to transform these distances into more user-friendly ratings.
+      Since Glassdoor offers ratings between 1-5, I decided to do the same.
+      For each company and position, I first linearly scaled the interval of 0 to max distance into the interval of 5 to 1. However, since there were companies/positions, that were very far from others, the highest ratings tended to be very close to 5 (think 4.99, 4.98). 
+      Thus, I decided to apply a square root transformation to the company and position distances before the linear scaling to offer a little more separation between the highest scorers.
+    </p>
+  </div>
+
+    <div class="starter-template">
+      <h3> Calculating the overall score</h3>
+
+    </div>
+
+
+    <div class="container">
+      <p>
+        Now I have calculated a company similarity score and a job title similarity score for each company and job title. 
+        I then analyzed the Glassdoor reviews to find the job titles that have been reviewed at each company.
+        I then did a sort to figure out the most similar job at each company.
+        To calculate the overall score based on the user-defined "scale" between importance of company similarity versus job similarity, I did a linear interpolation between the company score and job title score.
+        From there, I found the positions at companies with the highest overall scores.
+        <br><br>
+        And that's how xPea recommends jobs!
+      </p>
+    </div>
+
+    <div class="container">
+      <h4>
+        <b>Tl;dr:</b> xPea represents companies and positions as vectors and then finds the positions at companies that are closest to the user's desired position at a company.
+      </h4>
+    </div>
+
+  </div>
+
+  <br>
+
+
+
+
+
+
+
+
+
+
+   <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+   <script src="static/js/bootstrap.min.js"></script>
+
+ </div> <!-- /.container-->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="static/js/bootstrap.min.js"></script>
+  </body>
+</html>
