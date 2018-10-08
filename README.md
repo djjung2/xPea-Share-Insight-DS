@@ -37,3 +37,5 @@ This project was created with the assistance of Insight Data Science, its direct
 Access to a dataset of over 2.5 million Glassdoor was provided by Thinknum, a company that provides alternative data sources. Thinknum provided access to this data to Insight fellows if it would help us with our projects. 
 
 Occupational data was provided by the O\*Net Database, the nation's largest occupational database.
+
+© djjung2
