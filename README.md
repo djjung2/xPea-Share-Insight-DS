@@ -4,11 +4,11 @@ I created xPea, a job recommendation system that suggests jobs tailored to each 
 
 ![xPea logo](https://raw.githubusercontent.com/djjung2/xPea-Share-Insight-DS/master/src/flaskexample/static/images/xPea_Logo.png)
 
-# Motivation
+## Motivation
 
 It's hard to find a job that you want and can get (at least starting out). You may have a dream job at a company, but you'd feel better if you had more options. You could spend hours reading reviews of companies, hoping for a nice backup, but you have better things to do. Or maybe there is a job title you think you're trajectorying towards, but you would like to learn about other jobs you could do. That's where xPea comes in! xPea find jobs at companies similar to ones you're interested in by reading reviews and applying the nation's largest occupational database. Searching for jobs is hard enough. Let xPea xPeadite the process.
 
-# Layout
+## Layout
 
     .
     ├── data                      # company and occupational data
@@ -25,3 +25,15 @@ It's hard to find a job that you want and can get (at least starting out). You m
     ├── src                       # Source files
     │   ├── flaskexample          # creates Flask web app
     └── README.md
+
+## Setting up xPea locally
+
+If you are interested in running the xPea website as a Flask app locally, make sure that you have first installed Anaconda. Then download the `src` directory in this repository. Open a terminal, change to the directory containing `src`, and type `./run.py`. This should run xPea locally, after downloading any necessary Python libraries. 
+
+## Credits
+
+This project was created with the assistance of Insight Data Science, its directors, and its fellow during the Fall 2018 session in New York City.
+
+Access to a dataset of over 2.5 million Glassdoor was provided by Thinknum, a company that provides alternative data sources. Thinknum provided access to this data to Insight fellows if it would help us with our projects. 
+
+Occupational data was provided by the O\*Net Database, the nation's largest occupational database.
