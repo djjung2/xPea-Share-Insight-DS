@@ -1,6 +1,6 @@
 # xPea
 
-I created xPea, a job recommendation system that suggests jobs tailored to each user's preferred balance between good company experience and job title. A user inputs a job title at a publicly traded company, and xPea will compare 13,000 unique job titles at over 4,000 companies to suggest similar jobs at companies. I deployed this project as a Flask web app hosted on AWS at xpeashare.work . This project was created as a Fellow in 4 weeks during the Fall 2018 session of Insight Data Science.
+I created xPea, a job recommendation system that suggests jobs tailored to each user's preferred balance between good company experience and job title. A user inputs a job title at a publicly traded company, and xPea will compare 13,000 unique job titles at over 4,000 companies to suggest similar jobs at companies. I deployed this project as a Flask web app hosted on AWS at [xpeashare.work](http://xpeashare.work). This project was created as a Fellow in 4 weeks during the Fall 2018 session of Insight Data Science.
 
 ![xPea logo](https://raw.githubusercontent.com/djjung2/xPea-Share-Insight-DS/master/src/flaskexample/static/images/xPea_Logo.png)
 
@@ -32,7 +32,7 @@ If you are interested in running the xPea website as a Flask app locally, make s
 
 ## Credits
 
-This project was created with the assistance of Insight Data Science, its directors, and its fellow during the Fall 2018 session in New York City.
+This project was created with the assistance of Insight Data Science, its directors, and its fellows during the Fall 2018 session in New York City.
 
 Access to a dataset of over 2.5 million Glassdoor was provided by Thinknum, a company that provides alternative data sources. Thinknum provided access to this data to Insight fellows if it would help us with our projects. 
 
